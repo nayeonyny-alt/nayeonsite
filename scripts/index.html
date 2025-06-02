@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IM NAYEON | 임나연</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Lexend:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fbfcf8;
+            font-family: "Lexend", sans-serif;
+            color: #04202e;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: "Bagel Fat One", cursive;
+            font-size: 24px;
+            color: #80caf1;
+        }
+    
+        .grey-text {
+        color: #B8BEC1;
+        font-family: "Bagel Fat One", cursive;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #04202e;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #80caf1;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .featured-section {
+            margin: 40px 0;
+        }
+
+        .featured-video {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #80caf1;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+            pointer-events: none;
+        }
+
+        .play-button {
+            position: absolute;
+            font-size: 70px;
+            color: white;
+            opacity: 0.8;
+            z-index: 11;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .video-description {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            color: white;
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 12px 16px;
+            text-align: left;
+            z-index: 10;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .content-container {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .artist-info {
+            flex: 1;
+            display: flex;
+        }
+
+        .artist-info img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .info-section {
+            flex: 1;
+            padding: 30px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-section h1 {
+            font-family: "Bagel Fat One", cursive;
+            font-size: 36px;
+            color: #80caf1;
+            margin-bottom: 10px;
+        }
+
+        .korean-name {
+            font-size: 24px;
+            color: #B8BEC1;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .description strong {
+            color: #80caf1;
+            font-weight: 700;
+        }
+
+        .learn-more-btn {
+            background-color: #80caf1;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        .learn-more-btn:hover {
+            background-color: #6bb8e8;
+            transform: translateY(-2px);
+        }
+
+        .disclaimer-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .disclaimer-content {
+            background-color: #fbfcf8;
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .disclaimer-content h2 {
+            color: #80caf1;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .disclaimer-content p {
+            color: #04202e;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .disclaimer-content strong {
+            color: #80caf1;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .close-disclaimer {
+            background-color: #80caf1;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .close-disclaimer:hover {
+            background-color: #6bb8e8;
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .music-section {
+            flex-grow: 1;
+        }
+
+        .section-title {
+            font-family: "Lexend", sans-serif;
+            font-size: 18px;
+            color: #04202e;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .songs-container {
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #fbfcf8;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .songs-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .songs-container::-webkit-scrollbar-track {
+            background: #e9ecef;
+            border-radius: 4px;
+        }
+
+        .songs-container::-webkit-scrollbar-thumb {
+            background: #80caf1;
+            border-radius: 4px;
+        }
+
+        .spotify-embed {
+            margin-bottom: 15px;
+        }
+
+        .spotify-embed:last-child {
+            margin-bottom: 0;
+        }
+
+        .spotify-embed iframe {
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        .see-playlists-btn {
+            background-color: #80caf1;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        .see-playlists-btn:hover {
+            background-color: #6bb8e8;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: #80caf1;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 80px;
+        }
+
+        .disclaimer {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin: 30px 0;
+            }
+
+            .content-container {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .artist-info img {
+                height: 300px;
+                object-fit: cover;
+            }
+
+            .info-section {
+                padding: 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .info-section h1 {
+                font-size: 28px;
+            }
+
+            .featured-video {
+                height: 250px;
+            }
+
+            .video-description {
+                max-width: 90%;
+                font-size: 11px;
+                padding: 10px 12px;
+            }
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="disclaimerModal" class="disclaimer-modal">
+        <div class="disclaimer-content">
+            <p>
+                <strong>DISCLAIMER</strong><br /><br />
+                This is a fanmade website dedicated to <strong>TWICE</strong>'s Nayeon. We are not affiliated with
+                <strong>JYP Entertainment</strong> or the official <strong>TWICE</strong> team.<br /><br />
+                If you're a fan of <strong>TWICE</strong> or <strong>Nayeon</strong>, you're in the right place! This website features
+                curated Spotify playlists for Nayeon and updates on her latest releases, all lovingly put together by fellow
+                <strong>ONCES</strong>.
+            </p>
+            <button class="close-disclaimer" onclick="closeDisclaimer()">Enter Site</button>
+        </div>
+    </div>
+
+    <header>
+        <nav class="container">
+            <div class="logo">
+                IM NAYEON | <span class="grey-text">임나연</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">HOME</a></li>
+                <li><a href="playlists.html">PLAYLISTS</a></li>
+                <li><a href="#nayeon">NAYEON</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="featured-section">
+            <div
+    class="featured-video"
+    onclick="window.open('https://www.youtube.com/watch?v=5jaq_CsP86c', '_blank')"
+    title="Open YouTube video">
+        <div class="featured-badge">Featured</div>
+        <video
+            src="../assets/kimagure.mp4"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            class="video-placeholder"
+        ></video>
+        <div class="play-button">&#9658;</div>
+        <div class="video-description">
+            Nayeon first performed a cover of Ikimonogakari's "Kimagure Romantic" at BEAT AX Vol.5 on
+            February 2, 2025. The performance quickly went viral, doubling the original song's daily streams in
+            Japan from 22,000 to 44,000. It also entered Spotify Japan and other major Japanese charts for the
+            first time. Following the surge in popularity, the original artists asked Nayeon to release her own
+            version, which was officially released on May 30.
+        </div>
+    </div>
+        </section>
+
+        <section class="main-content">
+            <div class="content-container">
+                <div class="artist-info">
+                    <img
+                        src="../assets/homepage_nayeon_image.jpeg"
+                        alt="Nayeon"
+                    />
+                </div>
+
+                <div class="info-section">
+                    <h1>IM NAYEON</h1>
+                    <div class="korean-name grey-text">(임나연)</div>
+                    <p class="description">
+                        Nayeon is a South Korean singer known as the lead vocalist, lead dancer, center, and face of the girl
+                        group TWICE. She was the first member of TWICE to launch a solo career, releasing two solo albums:
+                        IM NAYEON on June 24, 2022, and NA on June 14, 2024.
+                    </p>
+                    <button class="learn-more-btn">Learn More About Nayeon</button>
+
+                    <div class="music-section">
+                        <h3 class="section-title">NEW RELEASE</h3>
+                        <div class="spotify-embed">
+                            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6DKR66QBf1IYQUX6SBJeVF?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        </div>
+
+                        <h3 class="section-title">POPULAR SONGS</h3>
+                        <div class="songs-container">
+                            <div class="spotify-embed">
+                                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3lOMJTQTd6J34faYwASc33?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            </div>
+                            <div class="spotify-embed">
+                                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0V2passWyAXnON67kfAj7y?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            </div>
+                            <div class="spotify-embed">
+                                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0GnydTKmczMoKOEl1D4URI?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            </div>
+                        </div>
+
+                        <button class="see-playlists-btn">SEE FULL PLAYLISTS</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+    <div class="disclaimer">
+        Disclaimer<br>
+        This is a fanmade website dedicated to TWICE's Nayeon. We are not affiliated with JYP Entertainment or the official TWICE team.
+    </div>
+    </footer>
+
+
+    <script>
+    let expandedBox = null;
+
+    function toggleExpand(element) {
+        // If clicking the same expanded box, just keep it expanded
+        if (expandedBox === element) {
+            return;
+        }
+
+        // Collapse all boxes first
+        collapseAll();
+
+        // Expand the clicked box
+        element.classList.add('expanded');
+        expandedBox = element;
+    }
+
+    function collapseAll() {
+        const allBoxes = document.querySelectorAll('.song-box');
+        allBoxes.forEach(box => {
+            box.classList.remove('expanded');
+        });
+        expandedBox = null;
+    }
+
+    // Click outside to collapse
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.song-box')) {
+            collapseAll();
+        }
+    });
+
+    // Prevent iframe clicks from bubbling up when expanded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if disclaimer has been seen before
+        const disclaimerSeen = localStorage.getItem('disclaimerSeen');
+        
+        if (disclaimerSeen === 'true') {
+            // Hide disclaimer if already seen
+            document.getElementById("disclaimerModal").classList.add("hidden");
+        }
+        
+        const songBoxes = document.querySelectorAll('.song-box');
+        
+        songBoxes.forEach((box, index) => {
+            // Stagger the initial animation
+            setTimeout(() => {
+                box.style.opacity = '1';
+            }, index * 100);
+            
+            // Handle iframe interaction
+            const iframe = box.querySelector('iframe');
+            if (iframe) {
+                iframe.addEventListener('click', function(e) {
+                    if (box.classList.contains('expanded')) {
+                        e.stopPropagation();
+                    }
+                });
+            }
+        });
+    });
+    
+    function closeDisclaimer() {
+        // Mark disclaimer as seen and hide it
+        localStorage.setItem('disclaimerSeen', 'true');
+        document.getElementById("disclaimerModal").classList.add("hidden");
+    }
+</script>
+</body>
+</html>

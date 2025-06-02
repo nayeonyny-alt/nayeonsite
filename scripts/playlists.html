@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PLAYLISTS | IM NAYEON</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Lexend:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fbfcf8;
+            font-family: "Lexend", sans-serif;
+            color: #04202e;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: "Bagel Fat One", cursive;
+            font-size: 24px;
+            color: #80caf1;
+            text-decoration: none;
+        }
+    
+        .grey-text {
+            color: #B8BEC1;
+            font-family: "Bagel Fat One", cursive;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #04202e;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #80caf1;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .page-title {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .page-title h1 {
+            font-family: "Bagel Fat One", cursive;
+            font-size: 48px;
+            color: #80caf1;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            font-size: 18px;
+            color: #B8BEC1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .playlists-section {
+            margin: 60px 0;
+        }
+
+        .platform-section {
+            margin-bottom: 60px;
+        }
+
+        .platform-header {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .platform-badge {
+            background-color: #80caf1;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .playlist-container {
+            background-color: white;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+           
+        }
+
+        .hover-zone {
+            position: absolute;
+            top: 0;
+            bottom: 60px;
+            width: 80px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: #80caf1;
+            background: linear-gradient(to right, rgba(255,255,255,0.9), rgba(255,255,255,0));
+        }
+
+        .hover-zone.left {
+            left: 0;
+            background: linear-gradient(to right, rgba(255,255,255,0.9), rgba(255,255,255,0));
+        }
+
+        .hover-zone.right {
+            right: 0;
+            background: linear-gradient(to left, rgba(255,255,255,0.9), rgba(255,255,255,0));
+        }
+
+        .playlist-container:hover .hover-zone {
+            opacity: 1;
+        }
+
+        .hover-zone:hover {
+            opacity: 1 !important;
+            background: linear-gradient(to right, rgba(128, 202, 241, 0.1), rgba(128, 202, 241, 0));
+        }
+
+        .hover-zone.right:hover {
+            background: linear-gradient(to left, rgba(128, 202, 241, 0.1), rgba(128, 202, 241, 0));
+        }
+
+        .playlist-carousel {
+            position: relative;
+            overflow: hidden;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            touch-action: pan-y pinch-zoom;
+        }
+
+        .playlist-carousel:active {
+            cursor: grabbing;
+        }
+
+        .playlist-track {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+
+        .playlist-track.dragging {
+            transition: none;
+        }
+
+        .playlist-track.smooth-snap {
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .playlist-item {
+            flex: 0 0 auto;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .playlist-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .playlist-item iframe {
+            width: 352px;
+            height: 352px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background-color: #80caf1;
+            transform: scale(1.2);
+        }
+
+        .swipe-hint {
+            text-align: center;
+            color: #B8BEC1;
+            font-size: 14px;
+            margin-top: 15px;
+            opacity: 0.8;
+            animation: fadeInOut 3s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.4; }
+        }
+
+        .back-home {
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .back-home-btn {
+            background-color: #80caf1;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-home-btn:hover {
+            background-color: #6bb8e8;
+            transform: translateY(-2px);
+            
+
+        }
+
+        footer {
+            background-color: #80caf1;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 80px;
+        }
+
+        .disclaimer {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .playlist-item iframe {
+                width: 280px;
+                height: 280px;
+            }
+
+            .page-title h1 {
+                font-size: 36px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .playlist-container {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .playlist-item iframe {
+                width: 250px;
+                height: 250px;
+            }
+
+            .container {
+                padding: 0 10px;
+            }
+
+            .playlist-container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">
+                IM NAYEON | <span class="grey-text">임나연</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="playlists.html" class="active">PLAYLISTS</a></li>
+                <li><a href="#nayeon">NAYEON</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="page-title">
+            <h1>PLAYLISTS</h1>
+            <p>Curated collections of Nayeon's music across different platforms. Most playlists are for streaming with 2 to 3 songs in between and includes other artists. Swipe left and right to explore!</p>
+        </section>
+
+        <section class="playlists-section">
+            <div class="platform-section">
+                <div class="platform-header">
+                    <div class="platform-badge">SPOTIFY</div>
+                </div>
+                
+                <div class="playlist-container">
+                    <div class="hover-zone left" data-carousel="spotify" data-direction="prev">‹</div>
+                    <div class="hover-zone right" data-carousel="spotify" data-direction="next">›</div>
+                    <div class="playlist-carousel" id="spotifyCarousel">
+                        <div class="playlist-track" id="spotifyTrack">
+                            <div class="playlist-item">
+                                <iframe src="https://open.spotify.com/embed/playlist/1LHCLo8kz3dDfjuUjbEIBm?utm_source=generator" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            </div>
+                            <div class="playlist-item">
+                                <iframe src="https://open.spotify.com/embed/playlist/6Ah5CXOIC1FO9R9Me9rY84?utm_source=generator" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            </div>
+                            <div class="playlist-item">
+                                <iframe src="https://open.spotify.com/embed/playlist/1IwbSfqMNae0jit8GGB2pk?utm_source=generator" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            </div>
+                            <div class="playlist-item">
+                                <iframe src="https://open.spotify.com/embed/playlist/7KQFWmDbyHNZ9LqyjTkQGF?utm_source=generator" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            </div>
+                            <div class="playlist-item">
+                                <iframe src="https://open.spotify.com/embed/playlist/18TcFC84stihsDPTUgTc2S?utm_source=generator" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-indicators" id="spotifyIndicators"></div>
+                </div>
+            </div>
+
+            <div class="platform-section">
+                <div class="platform-header">
+                    <div class="platform-badge">APPLE MUSIC</div>
+                </div>
+                
+                <div class="playlist-container">
+                    <div class="hover-zone left" data-carousel="apple" data-direction="prev">‹</div>
+                    <div class="hover-zone right" data-carousel="apple" data-direction="next">›</div>
+                    <div class="playlist-carousel" id="appleCarousel">
+                        <div class="playlist-track" id="appleTrack">
+                            <div class="playlist-item">
+                                <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="450" style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/album/im-nayeon/1624932642"></iframe>
+                            </div>
+                            <div class="playlist-item">
+                                <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src=""></iframe>
+                            </div>
+                            <div class="playlist-item">
+                                <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src=""></iframe>
+                            </div>
+                            <div class="playlist-item">
+                                <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src=""></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-indicators" id="appleIndicators"></div>
+                </div>
+            </div>
+        </section>
+
+      <!--
+<section class="back-home">
+    <a href="index.html" class="back-home-btn">Back to Home</a>
+</section>
+-->
+
+    </main>
+
+    <footer>
+        <div class="disclaimer">
+            Disclaimer<br>
+            This is a fanmade website dedicated to TWICE's Nayeon. We are not affiliated with JYP Entertainment or the official TWICE team.
+        </div>
+    </footer>
+
+    <script>
+        class PlaylistCarousel {
+            constructor(carouselId, trackId, indicatorsId) {
+                this.carousel = document.getElementById(carouselId);
+                this.track = document.getElementById(trackId);
+                this.indicatorsContainer = document.getElementById(indicatorsId);
+                
+                this.currentIndex = 0;
+                this.visibleItems = 4;
+                this.totalItems = this.track.children.length;
+                this.maxIndex = Math.max(0, this.totalItems - this.visibleItems);
+                
+                // Touch/drag state
+                this.isDragging = false;
+                this.startX = 0;
+                this.currentX = 0;
+                this.initialTransform = 0;
+                this.dragThreshold = 30; // Reduced threshold for easier swiping
+                this.velocityTracker = [];
+                this.lastMoveTime = 0;
+                
+                // Auto-scroll state
+                this.isAutoScrolling = false;
+                this.autoScrollDirection = 0;
+                this.autoScrollSpeed = 0;
+                
+                this.init();
+            }
+            
+            init() {
+                this.updateVisibleItems();
+                this.createIndicators();
+                this.updateCarousel();
+                this.addInteractionSupport();
+                this.addHoverNavigation();
+                
+                window.addEventListener('resize', () => {
+                    this.updateVisibleItems();
+                    this.createIndicators();
+                    this.updateCarousel();
+                });
+            }
+            
+            addHoverNavigation() {
+                // Find hover zones for this carousel
+                const container = this.carousel.closest('.playlist-container');
+                const hoverZones = container.querySelectorAll('.hover-zone');
+                
+                hoverZones.forEach(zone => {
+                    const carouselType = zone.dataset.carousel;
+                    const direction = zone.dataset.direction;
+                    
+                    // Only attach to zones that match this carousel type
+                    if ((carouselType === 'spotify' && this.carousel.id === 'spotifyCarousel') ||
+                        (carouselType === 'apple' && this.carousel.id === 'appleCarousel')) {
+                        
+                        zone.addEventListener('click', () => {
+                            if (direction === 'next') {
+                                this.next();
+                            } else if (direction === 'prev') {
+                                this.prev();
+                            }
+                        });
+                        
+                        // Optional: Auto-scroll on hover (smooth continuous scrolling)
+                        let hoverInterval;
+                        zone.addEventListener('mouseenter', () => {
+                            hoverInterval = setInterval(() => {
+                                if (direction === 'next') {
+                                    this.next();
+                                } else if (direction === 'prev') {
+                                    this.prev();
+                                }
+                            }, 800); // Scroll every 800ms while hovering
+                        });
+                        
+                        zone.addEventListener('mouseleave', () => {
+                            clearInterval(hoverInterval);
+                        });
+                    }
+                });
+            }
+            
+            next() {
+                if (this.currentIndex < this.maxIndex) {
+                    this.currentIndex++;
+                    this.updateCarousel();
+                    this.updateIndicators();
+                }
+            }
+            
+            prev() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    this.updateCarousel();
+                    this.updateIndicators();
+                }
+            }
+            
+            createIndicators() {
+                this.indicatorsContainer.innerHTML = '';
+                const totalPages = Math.ceil(this.totalItems / this.visibleItems);
+                
+                for (let i = 0; i < totalPages; i++) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'indicator';
+                    if (i === Math.floor(this.currentIndex / this.visibleItems)) {
+                        indicator.classList.add('active');
+                    }
+                    
+                    indicator.addEventListener('click', () => {
+                        this.currentIndex = i * this.visibleItems;
+                        if (this.currentIndex > this.maxIndex) {
+                            this.currentIndex = this.maxIndex;
+                        }
+                        this.updateCarousel();
+                        this.updateIndicators();
+                    });
+                    
+                    this.indicatorsContainer.appendChild(indicator);
+                }
+            }
+            
+            updateIndicators() {
+                const indicators = this.indicatorsContainer.querySelectorAll('.indicator');
+                const activeIndex = Math.floor(this.currentIndex / this.visibleItems);
+                
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === activeIndex);
+                });
+            }
+            
+            updateVisibleItems() {
+                const containerWidth = this.carousel.offsetWidth - 40;
+                const itemWidth = 352 + 20;
+                this.visibleItems = Math.floor(containerWidth / itemWidth);
+                
+                if (window.innerWidth <= 480) {
+                    this.visibleItems = Math.max(1, Math.floor(containerWidth / 270));
+                } else if (window.innerWidth <= 768) {
+                    this.visibleItems = Math.max(1, Math.floor(containerWidth / 300));
+                }
+                
+                this.maxIndex = Math.max(0, this.totalItems - this.visibleItems);
+                
+                if (this.currentIndex > this.maxIndex) {
+                    this.currentIndex = this.maxIndex;
+                }
+            }
+            
+            addInteractionSupport() {
+                // Touch events with passive: false for preventDefault
+                this.carousel.addEventListener('touchstart', this.handleStart.bind(this), { passive: false });
+                this.carousel.addEventListener('touchmove', this.handleMove.bind(this), { passive: false });
+                this.carousel.addEventListener('touchend', this.handleEnd.bind(this), { passive: false });
+                this.carousel.addEventListener('touchcancel', this.handleEnd.bind(this), { passive: false });
+                
+                // Mouse events
+                this.carousel.addEventListener('mousedown', this.handleStart.bind(this));
+                document.addEventListener('mousemove', this.handleMove.bind(this));
+                document.addEventListener('mouseup', this.handleEnd.bind(this));
+                document.addEventListener('mouseleave', this.handleEnd.bind(this));
+                
+                // Prevent context menu and text selection
+                this.carousel.addEventListener('contextmenu', e => e.preventDefault());
+                this.carousel.addEventListener('dragstart', e => e.preventDefault());
+                this.carousel.addEventListener('selectstart', e => e.preventDefault());
+            }
+            
+            handleStart(e) {
+                // Stop any ongoing auto-scroll
+                this.stopAutoScroll();
+                
+                this.isDragging = true;
+                this.startX = this.getEventX(e);
+                this.currentX = this.startX;
+                this.initialTransform = this.getCurrentTransform();
+                this.velocityTracker = [{ time: Date.now(), x: this.startX }];
+                this.lastMoveTime = Date.now();
+                
+                this.track.classList.add('dragging');
+                this.carousel.style.cursor = 'grabbing';
+                
+                // Prevent default behavior for touch events
+                if (e.type.includes('touch')) {
+                    e.preventDefault();
+                } else if (e.type === 'mousedown') {
+                    e.preventDefault();
+                }
+            }
+            
+            handleMove(e) {
+                if (!this.isDragging) return;
+                
+                const now = Date.now();
+                this.currentX = this.getEventX(e);
+                const deltaX = this.currentX - this.startX;
+                
+                // More responsive movement calculation
+                const itemWidth = this.carousel.offsetWidth / this.visibleItems;
+                const movePercentage = (deltaX / itemWidth) * (100 / this.visibleItems);
+                const newTransform = this.initialTransform + movePercentage;
+                
+                // Add velocity tracking with better precision
+                this.velocityTracker.push({ time: now, x: this.currentX });
+                
+                // Keep only recent velocity data (last 150ms)
+                this.velocityTracker = this.velocityTracker.filter(point => now - point.time < 150);
+                
+                // Calculate boundaries
+                const maxTransform = 0;
+                const minTransform = -(this.maxIndex * (100 / this.visibleItems));
+                
+                // Apply transform with rubber band effect at boundaries
+                let finalTransform = newTransform;
+                const resistance = 0.25;
+                
+                if (newTransform > maxTransform) {
+                    const excess = newTransform - maxTransform;
+                    finalTransform = maxTransform + (excess * resistance);
+                } else if (newTransform < minTransform) {
+                    const excess = newTransform - minTransform;
+                    finalTransform = minTransform + (excess * resistance);
+                }
+                
+                this.track.style.transform = `translateX(${finalTransform}%)`;
+                this.lastMoveTime = now;
+                
+                // Prevent scrolling on touch devices
+                if (e.type.includes('touch') && Math.abs(deltaX) > 10) {
+                    e.preventDefault();
+                }
+            }
+            
+            handleEnd(e) {
+                if (!this.isDragging) return;
+                
+                this.isDragging = false;
+                this.track.classList.remove('dragging');
+                this.carousel.style.cursor = 'grab';
+                
+                // Calculate final position based on velocity and distance
+                const velocity = this.calculateVelocity();
+                const deltaX = this.currentX - this.startX;
+                const itemWidth = this.carousel.offsetWidth / this.visibleItems;
+                
+                // More sensitive thresholds
+                const distanceThreshold = itemWidth * 0.15; // 15% of item width
+                const velocityThreshold = 0.3; // pixels per ms
+                
+                let newIndex = this.currentIndex;
+                
+                // Determine swipe direction and strength
+                const shouldSwipe = Math.abs(deltaX) > distanceThreshold || Math.abs(velocity) > velocityThreshold;
+                
+                if (shouldSwipe) {
+                    if (deltaX < 0 || velocity < -velocityThreshold) {
+                        // Swipe left - next item(s)
+                        const swipeStrength = Math.max(1, Math.floor(Math.abs(velocity) / velocityThreshold));
+                        newIndex = Math.min(this.currentIndex + swipeStrength, this.maxIndex);
+                    } else if (deltaX > 0 || velocity > velocityThreshold) {
+                        // Swipe right - previous item(s)
+                        const swipeStrength = Math.max(1, Math.floor(Math.abs(velocity) / velocityThreshold));
+                        newIndex = Math.max(this.currentIndex - swipeStrength, 0);
+                    }
+                }
+                
+                // Smooth transition to final position
+                this.currentIndex = newIndex;
+                this.track.classList.add('smooth-snap');
+                this.updateCarousel();
+                this.updateIndicators();
+                
+                // Remove smooth-snap class after animation
+                setTimeout(() => {
+                    this.track.classList.remove('smooth-snap');
+                }, 400);
+                
+                if (e && e.type.includes('touch')) {
+                    e.preventDefault();
+                }
+            }
+            
+            calculateVelocity() {
+                if (this.velocityTracker.length < 2) return 0;
+                
+                // Use multiple points for better accuracy
+                const recent = this.velocityTracker[this.velocityTracker.length - 1];
+                const samples = Math.min(3, this.velocityTracker.length - 1);
+                let totalVelocity = 0;
+                let count = 0;
+                
+                for (let i = 1; i <= samples; i++) {
+                    const current = this.velocityTracker[this.velocityTracker.length - i];
+                    const previous = this.velocityTracker[this.velocityTracker.length - i - 1];
+                    
+                    if (current && previous) {
+                        const timeDiff = current.time - previous.time;
+                        const distanceDiff = current.x - previous.x;
+                        
+                        if (timeDiff > 0) {
+                            totalVelocity += distanceDiff / timeDiff;
+                            count++;
+                        }
+                    }
+                }
+                
+                return count > 0 ? totalVelocity / count : 0;
+            }
+            
+            stopAutoScroll() {
+                this.isAutoScrolling = false;
+                this.autoScrollDirection = 0;
+                this.autoScrollSpeed = 0;
+            }
+            
+            getEventX(e) {
+                if (e.type.includes('touch')) {
+                    return e.touches && e.touches.length > 0 ? e.touches[0].clientX : 
+                           (e.changedTouches && e.changedTouches.length > 0 ? e.changedTouches[0].clientX : 0);
+                }
+                return e.clientX || 0;
+            }
+            
+            getCurrentTransform() {
+                const style = window.getComputedStyle(this.track);
+                const matrix = style.transform;
+                
+                if (matrix === 'none' || !matrix) return 0;
+                
+                const values = matrix.split('(')[1].split(')')[0].split(',');
+                const translateX = parseFloat(values[4]) || 0;
+                const containerWidth = this.carousel.offsetWidth;
+                
+                return containerWidth > 0 ? (translateX / containerWidth) * 100 : 0;
+            }
+            
+            updateCarousel() {
+                const translateX = -this.currentIndex * (100 / this.visibleItems);
+                this.track.style.transform = `translateX(${translateX}%)`;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const spotifyCarousel = new PlaylistCarousel(
+                'spotifyCarousel', 
+                'spotifyTrack',
+                'spotifyIndicators'
+            );
+            
+            const appleCarousel = new PlaylistCarousel(
+                'appleCarousel', 
+                'appleTrack',
+                'appleIndicators'
+            );
+        });
+    </script>
+</body>
+</html>
