@@ -41,18 +41,19 @@
 
         .logo {
             font-family: "Bagel Fat One", cursive;
-            font-size: 24px;
+            font-size: clamp(1rem, 4vw, 2rem);
             color: #80caf1;
+            white-space: nowrap;
         }
     
         .grey-text {
-        color: #B8BEC1;
-        font-family: "Bagel Fat One", cursive;
+            color: #B8BEC1;
+            font-family: "Bagel Fat One", cursive;
         }
 
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: clamp(0.75rem, 3vw, 2rem);
             list-style: none;
         }
 
@@ -61,6 +62,7 @@
             color: #04202e;
             font-weight: 500;
             transition: color 0.3s ease;
+            font-size: clamp(0.875rem, 2.5vw, 1.125rem);
         }
 
         .nav-links a:hover,
@@ -167,13 +169,13 @@
 
         .info-section h1 {
             font-family: "Bagel Fat One", cursive;
-            font-size: 36px;
+            font-size: clamp(1.75rem, 5vw, 2.25rem);
             color: #80caf1;
             margin-bottom: 10px;
         }
 
         .korean-name {
-            font-size: 24px;
+            font-size: clamp(1.25rem, 3.5vw, 1.5rem);
             color: #B8BEC1;
             margin-bottom: 20px;
         }
@@ -354,7 +356,13 @@
             opacity: 0.9;
         }
 
-        @media (max-width: 768px) {
+        /* Responsive design - simplified with fluid scaling */
+        
+        @media (max-width: 767px) {
+            .container {
+                padding: 0 15px;
+            }
+            
             .main-content {
                 margin: 30px 0;
             }
@@ -373,18 +381,6 @@
                 padding: 20px;
             }
 
-            .nav-links {
-                gap: 20px;
-            }
-
-            .logo {
-                font-size: 20px;
-            }
-
-            .info-section h1 {
-                font-size: 28px;
-            }
-
             .featured-video {
                 height: 250px;
             }
@@ -394,9 +390,25 @@
                 font-size: 11px;
                 padding: 10px 12px;
             }
+
+            .section-title {
+                font-size: clamp(1rem, 3vw, 1.125rem);
+            }
         }
 
-        
+        @media (max-width: 479px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .featured-video {
+                height: 200px;
+            }
+            
+            .play-button {
+                font-size: clamp(3rem, 8vw, 4.375rem);
+            }
+        }
     </style>
 </head>
 <body>
@@ -422,7 +434,7 @@
             <ul class="nav-links">
                 <li><a href="#home" class="active">HOME</a></li>
                 <li><a href="playlists.html">PLAYLISTS</a></li>
-                <li><a href="#nayeon">NAYEON</a></li>
+                <li><a href="nayeon.html">NAYEON</a></li>
             </ul>
         </nav>
     </header>
@@ -471,7 +483,7 @@
                         group TWICE. She was the first member of TWICE to launch a solo career, releasing two solo albums:
                         IM NAYEON on June 24, 2022, and NA on June 14, 2024.
                     </p>
-                    <button class="learn-more-btn">Learn More About Nayeon</button>
+                    <button class="learn-more-btn" onclick="location.href='nayeon.html'">Learn More About Nayeon</button>
 
                     <div class="music-section">
                         <h3 class="section-title">NEW RELEASE</h3>
@@ -492,7 +504,7 @@
                             </div>
                         </div>
 
-                        <button class="see-playlists-btn">SEE FULL PLAYLISTS</button>
+                       <button class="see-playlists-btn" onclick="location.href='playlists.html'">SEE FULL PLAYLISTS</button>
                     </div>
                 </div>
             </div>
@@ -571,7 +583,6 @@
     
     function closeDisclaimer() {
         // Mark disclaimer as seen and hide it
-        localStorage.setItem('disclaimerSeen', 'true');
         document.getElementById("disclaimerModal").classList.add("hidden");
     }
 </script>
