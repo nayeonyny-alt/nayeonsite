@@ -1,783 +1,882 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PLAYLISTS | IM NAYEON</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Lexend:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet"
-    />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nayeon Playlists</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            background-color: #fbfcf8;
-            font-family: "Lexend", sans-serif;
-            color: #04202e;
-            line-height: 1.6;
-        }
+body {
+    background: white;
+    font-family: "Lexend", sans-serif;
+    color: #04202e;
+    min-height: 100vh;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+/* Header & Navigation */
+.header {
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(224, 224, 224, 0.3);
+}
 
-        header {
-            padding: 20px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    transition: padding 0.3s ease;
+}
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.nav-left { flex: 1; }
+.nav-right {
+    flex: 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
 
-        .logo {
-            font-family: "Bagel Fat One", cursive;
-            font-size: 24px;
-            color: #80caf1;
-            text-decoration: none;
-        }
-    
-        .grey-text {
-            color: #B8BEC1;
-            font-family: "Bagel Fat One", cursive;
-        }
+.logo {
+    font-family: "Bagel Fat One", cursive;
+    font-size: 24px;
+    color: #80caf1;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+.logo:hover { transform: scale(1.05); }
+.grey-text {
+    color: #B8BEC1;
+    font-family: "Bagel Fat One", cursive;
+}
 
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
 
-        .nav-links a {
-            text-decoration: none;
-            color: #04202e;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
+.nav-item { position: relative; }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #80caf1;
-            text-decoration: underline;
-            font-weight: 600;
-        }
+.nav-link {
+    text-decoration: none;
+    color: #04202e;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
 
-        .page-title {
-            text-align: center;
-            margin: 40px 0;
-        }
+.nav-link:hover,
+.nav-link.active {
+    color: #80caf1;
+    text-decoration: underline;
+    font-weight: 600;
+    transform: translateY(-2px);
+}
 
-        .page-title h1 {
-            font-family: "Bagel Fat One", cursive;
-            font-size: 48px;
-            color: #80caf1;
-            margin-bottom: 10px;
-        }
+/* Hamburger */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #04202e;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+}
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
 
-        .page-title p {
-            font-size: 18px;
-            color: #B8BEC1;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+/* Main Content */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
 
-        .playlists-section {
-            margin: 60px 0;
-        }
+.page-title {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.page-title h1 {
+    font-family: "Bagel Fat One", cursive;
+    font-size: 2rem;
+    color: #80caf1;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(128, 202, 241, 0.2);
+}
+.page-title p {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 300;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
 
-        .platform-section {
-            margin-bottom: 60px;
-        }
+/* Platform Selection */
+.platform-selection {
+    margin-bottom: 0.5rem;
+    overflow-x: auto;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
 
-        .platform-header {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+}
 
-        .platform-badge {
-            background-color: #80caf1;
-            color: white;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+.platform-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    overflow-x: auto;
+    white-space: nowrap;
+}
 
-        .playlist-container {
-            background-color: white;
-            padding: 20px;
-            overflow: hidden;
-            position: relative;
-           
-        }
+.platform-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    color: #04202e;
+    background: white;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
 
-        .hover-zone {
-            position: absolute;
-            top: 0;
-            bottom: 60px;
-            width: 80px;
-            z-index: 10;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-            color: #80caf1;
-            background: linear-gradient(to right, rgba(255,255,255,0.9), rgba(255,255,255,0));
-        }
+.platform-link:hover,
+.platform-link.active {
+    color: #80caf1;
+    transform: translateY(-2px);
 
-        .hover-zone.left {
-            left: 0;
-            background: linear-gradient(to right, rgba(255,255,255,0.9), rgba(255,255,255,0));
-        }
+}
 
-        .hover-zone.right {
-            right: 0;
-            background: linear-gradient(to left, rgba(255,255,255,0.9), rgba(255,255,255,0));
-        }
+.platform-icon {
+    width: 1rem;
+    height: 1rem;
+}
 
-        .playlist-container:hover .hover-zone {
-            opacity: 1;
-        }
+/* Search */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
 
-        .hover-zone:hover {
-            opacity: 1 !important;
-            background: linear-gradient(to right, rgba(128, 202, 241, 0.1), rgba(128, 202, 241, 0));
-        }
+.search-box {
+    position: relative;
+    width: 60%;
+}
 
-        .hover-zone.right:hover {
-            background: linear-gradient(to left, rgba(128, 202, 241, 0.1), rgba(128, 202, 241, 0));
-        }
+.search-input {
+    width: 100%;
+    padding: 0.4rem 3rem 0.4rem 1rem;
+    border: 2px solid #e0e7ff;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+}
 
-        .playlist-carousel {
-            position: relative;
-            overflow: hidden;
-            cursor: grab;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            touch-action: pan-y pinch-zoom;
-        }
+.search-input:focus {
+    border-color: #80caf1;
+    box-shadow: 0 0 20px rgba(128, 202, 241, 0.3);
+    transform: translateY(-2px);
+}
+.search-icon {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+}
 
-        .playlist-carousel:active {
-            cursor: grabbing;
-        }
+/* Filter Section */
+.filter-selection {
+    margin-bottom: 1rem;
+}
 
-        .playlist-track {
-            display: flex;
-            gap: 20px;
-            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform;
-        }
+.filter-menu {
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+    flex-wrap: wrap;
+}
 
-        .playlist-track.dragging {
-            transition: none;
-        }
+.filter-link {
+    text-decoration: none;
+    color: #04202e;
+    font-weight: 500;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.filter-link:hover,
+.filter-link.active {
+    color: #80caf1;
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(128, 202, 241, 0.2);
+}
 
-        .playlist-track.smooth-snap {
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        }
+/* Playlist Grid */
+.playlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
 
-        .playlist-item {
-            flex: 0 0 auto;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+.playlist-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(224, 231, 255, 0.5);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.playlist-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+.playlist-image {
+    width: 100%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+.playlist-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.playlist-info {
+    padding: 1.5rem;
+}
+.playlist-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-align: center;
+    color: #04202e;
+}
 
-        .playlist-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+.modal-content {
+    background: white;
+    margin: 8% auto;
+    padding: 1rem;
+    width: 50%;
+    max-width: 800px;
+    height: 50%;
+    animation: modalSlideIn 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+@keyframes modalSlideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e0e7ff;
+}
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+}
+.open-playlist-btn {
+    background: #80caf1;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+.open-playlist-btn:hover {
+    background: #82d2fd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+}
+.close-btn {
+    font-size: 2rem;
+    color: #6b7280;
+    cursor: pointer;
+}
+.modal-body {
+    flex: 1;
+    overflow: hidden;
+}
+.playlist-embed {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+}
 
-        .playlist-item iframe {
-            width: 352px;
-            height: 352px;
-            border: none;
-            border-radius: 8px;
-        }
+/* Filter Checkboxes */
+.filter-checkboxes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #04202e;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.checkbox-container:hover {
+    color: #80caf1;
+    transform: translateY(-2px);
 
-        .carousel-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 20px;
-        }
+}
+.checkbox-container input { display: none; }
+.checkmark {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #80caf1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+.checkbox-container input:checked + .checkmark {
+    background: #80caf1;
+}
+.checkbox-container input:checked + .checkmark::after {
+    content: '✓';
+    color: white;
+    font-weight: bold;
+    font-size: 0.6rem;
+}
 
-        .indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #e0e0e0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .indicator.active {
-            background-color: #80caf1;
-            transform: scale(1.2);
-        }
-
-        .swipe-hint {
-            text-align: center;
-            color: #B8BEC1;
-            font-size: 14px;
-            margin-top: 15px;
-            opacity: 0.8;
-            animation: fadeInOut 3s infinite;
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 0.4; }
-        }
-
-        .back-home {
-            text-align: center;
-            margin: 60px 0;
-        }
-
-        .back-home-btn {
-            background-color: #80caf1;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .back-home-btn:hover {
-            background-color: #6bb8e8;
-            transform: translateY(-2px);
-            
-
-        }
-
-        footer {
-            background-color: #80caf1;
-            color: white;
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 80px;
-        }
-
-        .disclaimer {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        @media (max-width: 768px) {
-            .playlist-item iframe {
-                width: 280px;
-                height: 280px;
-            }
-
-            .page-title h1 {
-                font-size: 36px;
-            }
-
-            .nav-links {
-                gap: 20px;
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+              .nav-container {
+                padding: 0.75rem 1rem;
             }
 
             .logo {
                 font-size: 20px;
             }
 
-            .playlist-container {
-                padding: 15px;
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                border-top: 1px solid #e0e0e0;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-item {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-link {
+                display: block;
+                padding: 1rem;
+                margin: 0 1rem;
+                border-radius: 8px;
+            }
+
+            .nav-link:active {
+                color: #80caf1;
+                transform: translateY(-2px);
+                background-color: rgba(128, 202, 241, 0.1);
+            }
+            
+            .nav-link.active {
+                color: #80caf1;
+                transform: translateY(-2px);
+            }
+
+    .main-content { padding: 1rem; }
+    .page-title h1 { font-size: 2rem; }
+    .platform-link, .filter-link, .checkbox-container {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+    .playlist-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+    .modal-content {
+        width: 90%;
+        height: 70%;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title h1 { font-size: 1.8rem; }
+    .modal-content {
+        width: 95%;
+        height: 85%;
+    }
+    .playlist-grid {
+        grid-template-columns: 1fr;
+    }
+            .nav-container {
+                padding: 0.5rem 1rem;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .nav-link {
+                font-size: 0.9rem;
+                padding: 0.8rem;
             }
         }
 
-        @media (max-width: 480px) {
-            .playlist-item iframe {
-                width: 250px;
-                height: 250px;
-            }
-
-            .container {
-                padding: 0 10px;
-            }
-
-            .playlist-container {
-                padding: 10px;
-            }
+        /* Demo content */
+        .demo-content {
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
         }
+
     </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <a href="index.html" class="logo">
-                IM NAYEON | <span class="grey-text">임나연</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">HOME</a></li>
-                <li><a href="playlists.html" class="active">PLAYLISTS</a></li>
-                <li><a href="#nayeon">NAYEON</a></li>
-            </ul>
-        </nav>
+    <!-- Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="#" class="logo">
+                    IM NAYEON | <span class="grey-text">임나연</span>
+                </a>
+            </div>
+            <div class="nav-right">
+                <nav>
+                    <ul class="nav-menu" id="navMenu">
+                        <li class="nav-item"><a href="index.html" class="nav-link">HOME</a></li>
+                        <li class="nav-item"><a href="playlists.html" class="nav-link active">PLAYLISTS</a></li>
+                        <li class="nav-item"><a href="#nayeon" class="nav-link">NAYEON</a></li>
+                    </ul>
+                </nav>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <main class="container">
-        <section class="page-title">
-            <h1>PLAYLISTS</h1>
-            <p>Curated collections of Nayeon's music across different platforms. Most playlists are for streaming with 2 to 3 songs in between and includes other artists. Swipe left and right to explore!</p>
-        </section>
+    <!-- Main Content -->
+<!-- Main Content -->
+<main class="main-content">
 
-        <section class="playlists-section">
-            <div class="platform-section">
-                <div class="platform-header">
-                    <div class="platform-badge">SPOTIFY</div>
-                </div>
-                
-                <div class="playlist-container">
-                    <div class="hover-zone left" data-carousel="spotify" data-direction="prev">‹</div>
-                    <div class="hover-zone right" data-carousel="spotify" data-direction="next">›</div>
-                    <div class="playlist-carousel" id="spotifyCarousel">
-                        <div class="playlist-track" id="spotifyTrack">
-                            <div class="playlist-item">
-                                <iframe src="https://open.spotify.com/embed/playlist/1LHCLo8kz3dDfjuUjbEIBm?utm_source=generator" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                            </div>
-                            <div class="playlist-item">
-                                <iframe src="https://open.spotify.com/embed/playlist/6Ah5CXOIC1FO9R9Me9rY84?utm_source=generator" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                            </div>
-                            <div class="playlist-item">
-                                <iframe src="https://open.spotify.com/embed/playlist/1IwbSfqMNae0jit8GGB2pk?utm_source=generator" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                            </div>
-                            <div class="playlist-item">
-                                <iframe src="https://open.spotify.com/embed/playlist/7KQFWmDbyHNZ9LqyjTkQGF?utm_source=generator" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                            </div>
-                            <div class="playlist-item">
-                                <iframe src="https://open.spotify.com/embed/playlist/18TcFC84stihsDPTUgTc2S?utm_source=generator" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-indicators" id="spotifyIndicators"></div>
-                </div>
+    <!-- Page Title and Description -->
+    <div class="page-title">
+        <h1>PLAYLISTS</h1>
+        <p>The featured playlist are all made by fans. </p>
+        <p>You may submit suggestions
+            <a href="https://forms.gle/hGYxJc9jZDpDYC7y7" target="_blank">here</a>
+        </p>
+    </div>
+
+    <!-- Search, Platform Choices, and Filter in One Container -->
+    <div class="platform-and-filters">
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search playlists..." id="searchInput">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
             </div>
-
-            <div class="platform-section">
-                <div class="platform-header">
-                    <div class="platform-badge">APPLE MUSIC</div>
-                </div>
-                
-                <div class="playlist-container">
-                    <div class="hover-zone left" data-carousel="apple" data-direction="prev">‹</div>
-                    <div class="hover-zone right" data-carousel="apple" data-direction="next">›</div>
-                    <div class="playlist-carousel" id="appleCarousel">
-                        <div class="playlist-track" id="appleTrack">
-                            <div class="playlist-item">
-                                <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="450" style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/us/album/im-nayeon/1624932642"></iframe>
-                            </div>
-                            <div class="playlist-item">
-                                <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src=""></iframe>
-                            </div>
-                            <div class="playlist-item">
-                                <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src=""></iframe>
-                            </div>
-                            <div class="playlist-item">
-                                <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src=""></iframe>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-indicators" id="appleIndicators"></div>
-                </div>
-            </div>
-        </section>
-
-      <!--
-<section class="back-home">
-    <a href="index.html" class="back-home-btn">Back to Home</a>
-</section>
--->
-
-    </main>
-
-    <footer>
-        <div class="disclaimer">
-            Disclaimer<br>
-            This is a fanmade website dedicated to TWICE's Nayeon. We are not affiliated with JYP Entertainment or the official TWICE team.
         </div>
-    </footer>
+
+        <!-- Platform Selection -->
+        <div class="platform-selection">
+            <ul class="platform-menu">
+                <li class="platform-item">
+                    <a href="#" class="platform-link active" data-platform="spotify">
+                        <svg class="platform-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/>
+                        </svg>
+                        Spotify
+                    </a>
+                </li>
+                <li class="platform-item">
+                    <a href="#" class="platform-link" data-platform="apple">
+                        <svg class="platform-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                        Apple Music
+                    </a>
+                </li>
+                <li class="platform-item">
+                    <a href="#" class="platform-link" data-platform="youtube">
+                        <svg class="platform-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                        YouTube Music
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Filter Selection -->
+        <div class="filter-selection">
+            <div class="filter-checkboxes">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="filteredCheckbox">
+                    <span class="checkmark"></span>
+                    Filtered
+                </label>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="unfilteredCheckbox">
+                    <span class="checkmark"></span>
+                    Unfiltered
+                </label>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Playlist Grid -->
+    <div class="playlist-grid" id="playlistGrid">
+        <!-- Playlists will be populated by JavaScript -->
+    </div>
+
+</main>
+
+
+    <!-- Modal -->
+    <div class="modal" id="playlistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle"></h3>
+                <div class="modal-actions">
+                    <a href="#" class="open-playlist-btn" id="openPlaylistBtn" target="_blank">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/>
+                        </svg>
+                        Open in Spotify
+                    </a>
+                    <span class="close-btn" id="closeModal">&times;</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <iframe class="playlist-embed" id="playlistEmbed" src="" frameborder="0" allow="encrypted-media"></iframe>
+            </div>
+        </div>
+    </div>
 
     <script>
-        class PlaylistCarousel {
-            constructor(carouselId, trackId, indicatorsId) {
-                this.carousel = document.getElementById(carouselId);
-                this.track = document.getElementById(trackId);
-                this.indicatorsContainer = document.getElementById(indicatorsId);
-                
-                this.currentIndex = 0;
-                this.visibleItems = 4;
-                this.totalItems = this.track.children.length;
-                this.maxIndex = Math.max(0, this.totalItems - this.visibleItems);
-                
-                // Touch/drag state
-                this.isDragging = false;
-                this.startX = 0;
-                this.currentX = 0;
-                this.initialTransform = 0;
-                this.dragThreshold = 30; // Reduced threshold for easier swiping
-                this.velocityTracker = [];
-                this.lastMoveTime = 0;
-                
-                // Auto-scroll state
-                this.isAutoScrolling = false;
-                this.autoScrollDirection = 0;
-                this.autoScrollSpeed = 0;
-                
-                this.init();
+        // Playlist data
+        const playlists = {
+    spotify: {
+        filtered: [
+            {
+                id: 1,
+                title: "Kimagure Romantic",
+                icon: "../assets/kimagure.jpg",
+                embedUrl: "https://open.spotify.com/embed/playlist/1dGlJl53BdpReDVdRSeVp9?si=os_QnwwhQViTee-lqF4VrA",
+                externalUrl: "https://open.spotify.com/playlist/1dGlJl53BdpReDVdRSeVp9?si=os_QnwwhQViTee-lqF4VrA"
+            },
+            {
+                id: 2,
+                title: "Kimagure x Era",
+                icon: "../assets/era.jpeg",
+                embedUrl: "https://open.spotify.com/embed/playlist/3mRmB39flp6BVqkNcwV6F1?si=rC8IxHmPRAKTjdBFRb0MPA",
+                externalUrl: "https://open.spotify.com/playlist/3mRmB39flp6BVqkNcwV6F1?si=rC8IxHmPRAKTjdBFRb0MPA"
+            },
+            {
+                id: 3,
+                title: "POP! FOCUS",
+                icon: "../assets/POP.png",
+                embedUrl: "https://open.spotify.com/embed/playlist/1LHCLo8kz3dDfjuUjbEIBm",
+                externalUrl: "https://open.spotify.com/playlist/1LHCLo8kz3dDfjuUjbEIBm"
+            },
+            {
+                id: 4,
+                title: "ABCD FOCUS",
+                icon: "../assets/ABCD.png",
+                embedUrl: "https://open.spotify.com/embed/playlist/7KQFWmDbyHNZ9LqyjTkQGF",
+                externalUrl: "https://open.spotify.com/playlist/7KQFWmDbyHNZ9LqyjTkQGF"
+            },
+            {
+                id: 5,
+                title: "POP! x ABCD",
+                icon: "../assets/POP x ABCD.png",
+                embedUrl: "https://open.spotify.com/embed/playlist/1IwbSfqMNae0jit8GGB2pk",
+                externalUrl: "https://open.spotify.com/playlist/1IwbSfqMNae0jit8GGB2pk"
+            },
+            {
+                id: 6,
+                title: "POP! x Strategy",
+                icon: "../assets/POP X Strategy.png",
+                embedUrl: "https://open.spotify.com/embed/playlist/6Ah5CXOIC1FO9R9Me9rY84",
+                externalUrl: "https://open.spotify.com/playlist/6Ah5CXOIC1FO9R9Me9rY84"
+            },
+            {
+                id: 7,
+                title: "ABCD x Strategy",
+                icon: "../assets/ABCD x Strategy.png",
+                embedUrl: "https://open.spotify.com/embed/playlist/18TcFC84stihsDPTUgTc2S",
+                externalUrl: "https://open.spotify.com/playlist/18TcFC84stihsDPTUgTc2S"
+            },
+            {
+                id: 8,
+                title: "POP! x Chappell",
+                icon: "../assets/POP x Chappell.png",
+                embedUrl: "https://open.spotify.com/embed/playlist/7jtFI6Z8DjFl2hN4jMfHaW?si=jH0Vq1CwR-G42KbRQ4Oocw",
+                externalUrl: "https://open.spotify.com/playlist/7jtFI6Z8DjFl2hN4jMfHaW?si=jH0Vq1CwR-G42KbRQ4Oocw"
+            },
+            {
+                id: 9,
+                title: "POP! x ABCD x TWICE Title Tracks",
+                icon: "../assets/POP x ABCD x TWICE TT.png",
+                embedUrl:"https://open.spotify.com/embed/playlist/28ljAiLSIOSda6uG0LOGmo?si=JJ6Wr1YgSpie_1fuHP2hGQ",
+                externalUrl: "https://open.spotify.com/playlist/28ljAiLSIOSda6uG0LOGmo?si=JJ6Wr1YgSpie_1fuHP2hGQ"
             }
-            
-            init() {
-                this.updateVisibleItems();
-                this.createIndicators();
-                this.updateCarousel();
-                this.addInteractionSupport();
-                this.addHoverNavigation();
-                
-                window.addEventListener('resize', () => {
-                    this.updateVisibleItems();
-                    this.createIndicators();
-                    this.updateCarousel();
-                });
-            }
-            
-            addHoverNavigation() {
-                // Find hover zones for this carousel
-                const container = this.carousel.closest('.playlist-container');
-                const hoverZones = container.querySelectorAll('.hover-zone');
-                
-                hoverZones.forEach(zone => {
-                    const carouselType = zone.dataset.carousel;
-                    const direction = zone.dataset.direction;
-                    
-                    // Only attach to zones that match this carousel type
-                    if ((carouselType === 'spotify' && this.carousel.id === 'spotifyCarousel') ||
-                        (carouselType === 'apple' && this.carousel.id === 'appleCarousel')) {
-                        
-                        zone.addEventListener('click', () => {
-                            if (direction === 'next') {
-                                this.next();
-                            } else if (direction === 'prev') {
-                                this.prev();
-                            }
-                        });
-                        
-                        // Optional: Auto-scroll on hover (smooth continuous scrolling)
-                        let hoverInterval;
-                        zone.addEventListener('mouseenter', () => {
-                            hoverInterval = setInterval(() => {
-                                if (direction === 'next') {
-                                    this.next();
-                                } else if (direction === 'prev') {
-                                    this.prev();
-                                }
-                            }, 800); // Scroll every 800ms while hovering
-                        });
-                        
-                        zone.addEventListener('mouseleave', () => {
-                            clearInterval(hoverInterval);
-                        });
-                    }
-                });
-            }
-            
-            next() {
-                if (this.currentIndex < this.maxIndex) {
-                    this.currentIndex++;
-                    this.updateCarousel();
-                    this.updateIndicators();
-                }
-            }
-            
-            prev() {
-                if (this.currentIndex > 0) {
-                    this.currentIndex--;
-                    this.updateCarousel();
-                    this.updateIndicators();
-                }
-            }
-            
-            createIndicators() {
-                this.indicatorsContainer.innerHTML = '';
-                const totalPages = Math.ceil(this.totalItems / this.visibleItems);
-                
-                for (let i = 0; i < totalPages; i++) {
-                    const indicator = document.createElement('div');
-                    indicator.className = 'indicator';
-                    if (i === Math.floor(this.currentIndex / this.visibleItems)) {
-                        indicator.classList.add('active');
-                    }
-                    
-                    indicator.addEventListener('click', () => {
-                        this.currentIndex = i * this.visibleItems;
-                        if (this.currentIndex > this.maxIndex) {
-                            this.currentIndex = this.maxIndex;
-                        }
-                        this.updateCarousel();
-                        this.updateIndicators();
-                    });
-                    
-                    this.indicatorsContainer.appendChild(indicator);
-                }
-            }
-            
-            updateIndicators() {
-                const indicators = this.indicatorsContainer.querySelectorAll('.indicator');
-                const activeIndex = Math.floor(this.currentIndex / this.visibleItems);
-                
-                indicators.forEach((indicator, index) => {
-                    indicator.classList.toggle('active', index === activeIndex);
-                });
-            }
-            
-            updateVisibleItems() {
-                const containerWidth = this.carousel.offsetWidth - 40;
-                const itemWidth = 352 + 20;
-                this.visibleItems = Math.floor(containerWidth / itemWidth);
-                
-                if (window.innerWidth <= 480) {
-                    this.visibleItems = Math.max(1, Math.floor(containerWidth / 270));
-                } else if (window.innerWidth <= 768) {
-                    this.visibleItems = Math.max(1, Math.floor(containerWidth / 300));
-                }
-                
-                this.maxIndex = Math.max(0, this.totalItems - this.visibleItems);
-                
-                if (this.currentIndex > this.maxIndex) {
-                    this.currentIndex = this.maxIndex;
-                }
-            }
-            
-            addInteractionSupport() {
-                // Touch events with passive: false for preventDefault
-                this.carousel.addEventListener('touchstart', this.handleStart.bind(this), { passive: false });
-                this.carousel.addEventListener('touchmove', this.handleMove.bind(this), { passive: false });
-                this.carousel.addEventListener('touchend', this.handleEnd.bind(this), { passive: false });
-                this.carousel.addEventListener('touchcancel', this.handleEnd.bind(this), { passive: false });
-                
-                // Mouse events
-                this.carousel.addEventListener('mousedown', this.handleStart.bind(this));
-                document.addEventListener('mousemove', this.handleMove.bind(this));
-                document.addEventListener('mouseup', this.handleEnd.bind(this));
-                document.addEventListener('mouseleave', this.handleEnd.bind(this));
-                
-                // Prevent context menu and text selection
-                this.carousel.addEventListener('contextmenu', e => e.preventDefault());
-                this.carousel.addEventListener('dragstart', e => e.preventDefault());
-                this.carousel.addEventListener('selectstart', e => e.preventDefault());
-            }
-            
-            handleStart(e) {
-                // Stop any ongoing auto-scroll
-                this.stopAutoScroll();
-                
-                this.isDragging = true;
-                this.startX = this.getEventX(e);
-                this.currentX = this.startX;
-                this.initialTransform = this.getCurrentTransform();
-                this.velocityTracker = [{ time: Date.now(), x: this.startX }];
-                this.lastMoveTime = Date.now();
-                
-                this.track.classList.add('dragging');
-                this.carousel.style.cursor = 'grabbing';
-                
-                // Prevent default behavior for touch events
-                if (e.type.includes('touch')) {
-                    e.preventDefault();
-                } else if (e.type === 'mousedown') {
-                    e.preventDefault();
-                }
-            }
-            
-            handleMove(e) {
-                if (!this.isDragging) return;
-                
-                const now = Date.now();
-                this.currentX = this.getEventX(e);
-                const deltaX = this.currentX - this.startX;
-                
-                // More responsive movement calculation
-                const itemWidth = this.carousel.offsetWidth / this.visibleItems;
-                const movePercentage = (deltaX / itemWidth) * (100 / this.visibleItems);
-                const newTransform = this.initialTransform + movePercentage;
-                
-                // Add velocity tracking with better precision
-                this.velocityTracker.push({ time: now, x: this.currentX });
-                
-                // Keep only recent velocity data (last 150ms)
-                this.velocityTracker = this.velocityTracker.filter(point => now - point.time < 150);
-                
-                // Calculate boundaries
-                const maxTransform = 0;
-                const minTransform = -(this.maxIndex * (100 / this.visibleItems));
-                
-                // Apply transform with rubber band effect at boundaries
-                let finalTransform = newTransform;
-                const resistance = 0.25;
-                
-                if (newTransform > maxTransform) {
-                    const excess = newTransform - maxTransform;
-                    finalTransform = maxTransform + (excess * resistance);
-                } else if (newTransform < minTransform) {
-                    const excess = newTransform - minTransform;
-                    finalTransform = minTransform + (excess * resistance);
-                }
-                
-                this.track.style.transform = `translateX(${finalTransform}%)`;
-                this.lastMoveTime = now;
-                
-                // Prevent scrolling on touch devices
-                if (e.type.includes('touch') && Math.abs(deltaX) > 10) {
-                    e.preventDefault();
-                }
-            }
-            
-            handleEnd(e) {
-                if (!this.isDragging) return;
-                
-                this.isDragging = false;
-                this.track.classList.remove('dragging');
-                this.carousel.style.cursor = 'grab';
-                
-                // Calculate final position based on velocity and distance
-                const velocity = this.calculateVelocity();
-                const deltaX = this.currentX - this.startX;
-                const itemWidth = this.carousel.offsetWidth / this.visibleItems;
-                
-                // More sensitive thresholds
-                const distanceThreshold = itemWidth * 0.15; // 15% of item width
-                const velocityThreshold = 0.3; // pixels per ms
-                
-                let newIndex = this.currentIndex;
-                
-                // Determine swipe direction and strength
-                const shouldSwipe = Math.abs(deltaX) > distanceThreshold || Math.abs(velocity) > velocityThreshold;
-                
-                if (shouldSwipe) {
-                    if (deltaX < 0 || velocity < -velocityThreshold) {
-                        // Swipe left - next item(s)
-                        const swipeStrength = Math.max(1, Math.floor(Math.abs(velocity) / velocityThreshold));
-                        newIndex = Math.min(this.currentIndex + swipeStrength, this.maxIndex);
-                    } else if (deltaX > 0 || velocity > velocityThreshold) {
-                        // Swipe right - previous item(s)
-                        const swipeStrength = Math.max(1, Math.floor(Math.abs(velocity) / velocityThreshold));
-                        newIndex = Math.max(this.currentIndex - swipeStrength, 0);
-                    }
-                }
-                
-                // Smooth transition to final position
-                this.currentIndex = newIndex;
-                this.track.classList.add('smooth-snap');
-                this.updateCarousel();
-                this.updateIndicators();
-                
-                // Remove smooth-snap class after animation
-                setTimeout(() => {
-                    this.track.classList.remove('smooth-snap');
-                }, 400);
-                
-                if (e && e.type.includes('touch')) {
-                    e.preventDefault();
-                }
-            }
-            
-            calculateVelocity() {
-                if (this.velocityTracker.length < 2) return 0;
-                
-                // Use multiple points for better accuracy
-                const recent = this.velocityTracker[this.velocityTracker.length - 1];
-                const samples = Math.min(3, this.velocityTracker.length - 1);
-                let totalVelocity = 0;
-                let count = 0;
-                
-                for (let i = 1; i <= samples; i++) {
-                    const current = this.velocityTracker[this.velocityTracker.length - i];
-                    const previous = this.velocityTracker[this.velocityTracker.length - i - 1];
-                    
-                    if (current && previous) {
-                        const timeDiff = current.time - previous.time;
-                        const distanceDiff = current.x - previous.x;
-                        
-                        if (timeDiff > 0) {
-                            totalVelocity += distanceDiff / timeDiff;
-                            count++;
-                        }
-                    }
-                }
-                
-                return count > 0 ? totalVelocity / count : 0;
-            }
-            
-            stopAutoScroll() {
-                this.isAutoScrolling = false;
-                this.autoScrollDirection = 0;
-                this.autoScrollSpeed = 0;
-            }
-            
-            getEventX(e) {
-                if (e.type.includes('touch')) {
-                    return e.touches && e.touches.length > 0 ? e.touches[0].clientX : 
-                           (e.changedTouches && e.changedTouches.length > 0 ? e.changedTouches[0].clientX : 0);
-                }
-                return e.clientX || 0;
-            }
-            
-            getCurrentTransform() {
-                const style = window.getComputedStyle(this.track);
-                const matrix = style.transform;
-                
-                if (matrix === 'none' || !matrix) return 0;
-                
-                const values = matrix.split('(')[1].split(')')[0].split(',');
-                const translateX = parseFloat(values[4]) || 0;
-                const containerWidth = this.carousel.offsetWidth;
-                
-                return containerWidth > 0 ? (translateX / containerWidth) * 100 : 0;
-            }
-            
-            updateCarousel() {
-                const translateX = -this.currentIndex * (100 / this.visibleItems);
-                this.track.style.transform = `translateX(${translateX}%)`;
-            }
+        ],
+        unfiltered: [
+            {
+                id: 10,
+                title: "POP! Unfiltered",
+                icon: "../assets/POP.png",
+                embedUrl: "https://open.spotify.com/embed/playlist/1dGlJl53BdpReDVdRSeVp9",
+                externalUrl: "https://open.spotify.com/playlist/1dGlJl53BdpReDVdRSeVp9"
+            },
+            {
+                id: 11,
+                title: "ABCD Unfiltered",
+                icon: "../assets/ABCD.png",
+                embedUrl: "https://open.spotify.com/embed/playlist/3mRmB39flp6BVqkNcwV6F1",
+                externalUrl: "https://open.spotify.com/playlist/3mRmB39flp6BVqkNcwV6F1"
+            },
+        ]
+    },
+    apple: {
+      
+        
+    },
+    youtube: {
+        
+    }
+};
+
+// Updated DOM elements
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
+const searchInput = document.getElementById('searchInput');
+const platformLinks = document.querySelectorAll('.platform-link');
+const filteredCheckbox = document.getElementById('filteredCheckbox');
+const unfilteredCheckbox = document.getElementById('unfilteredCheckbox');
+const playlistGrid = document.getElementById('playlistGrid');
+const modal = document.getElementById('playlistModal');
+const closeModal = document.getElementById('closeModal');
+const modalTitle = document.getElementById('modalTitle');
+const playlistEmbed = document.getElementById('playlistEmbed');
+const openPlaylistBtn = document.getElementById('openPlaylistBtn');
+
+// State
+let currentPlatform = 'spotify';
+let currentPlaylists = [...playlists.spotify.filtered, ...playlists.spotify.unfiltered];
+let currentPlaylistUrl = '';
+
+// Navigation functionality (keep existing)
+hamburger.addEventListener('click', function () {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
+
+const navLinks = document.querySelectorAll('.nav-link');
+navLinks.forEach(link => {
+    link.addEventListener('click', function () {
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    });
+});
+
+document.addEventListener('click', function (event) {
+    const isClickInsideNav = navMenu.contains(event.target);
+    const isClickOnHamburger = hamburger.contains(event.target);
+
+    if (!isClickInsideNav && !isClickOnHamburger && navMenu.classList.contains('active')) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
+});
+
+// Platform selection
+platformLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+        platformLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        currentPlatform = this.dataset.platform;
+        updatePlaylists();
+    });
+});
+
+// Checkbox functionality
+filteredCheckbox.addEventListener('change', updatePlaylists);
+unfilteredCheckbox.addEventListener('change', updatePlaylists);
+
+// Search functionality
+searchInput.addEventListener('input', function () {
+    const searchTerm = this.value.toLowerCase();
+    const filteredPlaylists = currentPlaylists.filter(playlist => 
+        playlist.title.toLowerCase().includes(searchTerm)
+    );
+    renderPlaylists(filteredPlaylists);
+});
+
+// Update playlists based on current platform and checkboxes
+function updatePlaylists() {
+    const platformData = playlists[currentPlatform];
+    currentPlaylists = [];
+    
+    // If no checkboxes are selected, show all playlists
+    if (!filteredCheckbox.checked && !unfilteredCheckbox.checked) {
+        currentPlaylists = [...(platformData.filtered || []), ...(platformData.unfiltered || [])];
+    } else {
+        if (filteredCheckbox.checked) {
+            currentPlaylists = [...currentPlaylists, ...(platformData.filtered || [])];
         }
         
-        document.addEventListener('DOMContentLoaded', function() {
-            const spotifyCarousel = new PlaylistCarousel(
-                'spotifyCarousel', 
-                'spotifyTrack',
-                'spotifyIndicators'
-            );
-            
-            const appleCarousel = new PlaylistCarousel(
-                'appleCarousel', 
-                'appleTrack',
-                'appleIndicators'
-            );
-        });
-    </script>
+        if (unfilteredCheckbox.checked) {
+            currentPlaylists = [...currentPlaylists, ...(platformData.unfiltered || [])];
+        }
+    }
+    
+    renderPlaylists(currentPlaylists);
+}
+
+// Render playlists (keep existing)
+function renderPlaylists(playlistsToRender) {
+    playlistGrid.innerHTML = '';
+    playlistsToRender.forEach(playlist => {
+        const playlistCard = document.createElement('div');
+        playlistCard.className = 'playlist-card';
+        playlistCard.innerHTML = `
+            <div class="playlist-image">
+                <img src="${playlist.icon}" alt="${playlist.title}" class="playlist-icon">
+            </div>
+            <div class="playlist-info">
+                <h3 class="playlist-title">${playlist.title}</h3>
+            </div>
+        `;
+        playlistCard.addEventListener('click', () => openModal(playlist));
+        playlistGrid.appendChild(playlistCard);
+    });
+}
+
+// Modal functionality (keep existing)
+function openModal(playlist) {
+    modalTitle.textContent = playlist.title;
+    playlistEmbed.src = playlist.embedUrl;
+    currentPlaylistUrl = playlist.externalUrl;
+    openPlaylistBtn.href = playlist.externalUrl;
+    
+    const platformText = {
+        'spotify': 'Open in Spotify',
+        'apple': 'Open in Apple Music',
+        'youtube': 'Open in YouTube Music'
+    };
+    openPlaylistBtn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/>
+        </svg>
+        ${platformText[currentPlatform] || 'Open Playlist'}
+    `;
+    
+    modal.style.display = 'block';
+}
+
+closeModal.addEventListener('click', function () {
+    modal.style.display = 'none';
+    playlistEmbed.src = '';
+});
+
+window.addEventListener('click', function (event) {
+    if (event.target === modal) {
+        modal.style.display = 'none';
+        playlistEmbed.src = '';
+    }
+});
+
+// Initialize
+updatePlaylists();
+</script>
 </body>
 </html>
