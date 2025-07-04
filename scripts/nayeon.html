@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nayeon Navigation</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Lexend:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: white;
+            font-family: "Lexend", sans-serif;
+            color: #04202e;
+            line-height: 1.6;
+        }
+
+        /* Navigation Styles */
+        .header {
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(224, 224, 224, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            transition: padding 0.3s ease;
+        }
+
+        .nav-left {
+            flex: 1;
+        }
+
+        .nav-right {
+            flex: 2;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: "Bagel Fat One", cursive;
+            font-size: 24px;
+            color: #80caf1;
+            text-decoration: none;
+        }
+
+        .grey-text {
+            color: #B8BEC1;
+            font-family: "Bagel Fat One", cursive;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #04202e;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #80caf1;
+            text-decoration: underline;
+            font-weight: 600;
+            transform: translateY(-2px);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #04202e;
+            margin: 3px 0;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Mobile Navigation Styles */
+        @media screen and (max-width: 768px) {
+            .nav-container {
+                padding: 0.75rem 1rem;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                border-top: 1px solid #e0e0e0;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-item {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-link {
+                display: block;
+                padding: 1rem;
+                margin: 0 1rem;
+                border-radius: 8px;
+            }
+
+            .nav-link:active {
+                color: #80caf1;
+                transform: translateY(-2px);
+                background-color: rgba(128, 202, 241, 0.1);
+            }
+            
+            .nav-link.active {
+                color: #80caf1;
+                transform: translateY(-2px);
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .nav-container {
+                padding: 0.5rem 1rem;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .nav-link {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+        }
+
+        /* Demo content to show navigation working */
+        .demo-content {
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .demo-content h1 {
+            color: #80caf1;
+            font-family: "Bagel Fat One", cursive;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-content p {
+            color: #04202e;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="#" class="logo">
+                    IM NAYEON | <span class="grey-text">임나연</span>
+                </a>
+            </div>
+            <div class="nav-right">
+                <nav>
+                    <ul class="nav-menu" id="navMenu">
+                        <li class="nav-item"><a href="#home" class="nav-link">HOME</a></li>
+                        <li class="nav-item"><a href="playlists.html" class="nav-link">MUSIC</a></li>
+                        <li class="nav-item"><a href="nayeon.html" class="nav-link active">NAYEON</a></li>
+                    </ul>
+                </nav>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="demo-content">
+        <h1>UNDER CONSTRUCTION</h1>
+        <p>coming soon...</p>
+    </div>
+
+    <script>
+        // Navigation functionality
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function () {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                // Remove active from all nav links
+                navLinks.forEach(l => l.classList.remove('active'));
+                // Add active to clicked link
+                this.classList.add('active');
+                
+                // Close mobile menu
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function (event) {
+            const isClickInsideNav = navMenu.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+
+            if (!isClickInsideNav && !isClickOnHamburger && navMenu.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Set active link based on current page/section
+        function setActiveLink() {
+            const currentHash = window.location.hash || '#nayeon';
+            const currentLink = document.querySelector(`.nav-link[href="${currentHash}"]`);
+            
+            if (currentLink) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                currentLink.classList.add('active');
+            }
+        }
+
+        // Set active link on page load
+        window.addEventListener('load', setActiveLink);
+        // Set active link when hash changes
+        window.addEventListener('hashchange', setActiveLink);
+    </script>
+</body>
+</html>
